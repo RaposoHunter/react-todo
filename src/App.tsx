@@ -4,11 +4,17 @@ import styles from "./App.module.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import TaskForm from "./components/TaskForm";
+import TaskList from "./components/TaskList";
 
 import ITask from "./interfaces/Task";
 
 function App() {
     const [taskList, setTaskList] = useState<ITask[]>([]);
+
+    function deleteTask(id: string)
+    {
+        setTaskList(taskList.filter(task => task.id !== id));
+    }
 
     return (
         <div>
@@ -22,6 +28,8 @@ function App() {
 
                 <div>
                     <h2>Suas tarefas:</h2>
+                    
+                    <TaskList taskList={taskList} handleDelete={deleteTask} />
                 </div>
             </main>
             <Footer />
