@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./TaskForm.module.css";
 import ITask from "../interfaces/Task";
 
@@ -6,18 +6,34 @@ interface Props
 {
     btnText: string;
     taskList: ITask[];
+    task?: ITask | null;
     setTaskList?: React.Dispatch<React.SetStateAction<ITask[]>>;
+    handleUpdate?(id: string, title: string, difficulty: number): void;
 }
 
-export default function TaskForm({ btnText, taskList, setTaskList } : Props)
+export default function TaskForm({ btnText, taskList, setTaskList, task, handleUpdate } : Props)
 {
     const [id, setId] = useState<string>("");
     const [title, setTitle] = useState("");
     const [difficulty, setDifficulty] = useState(0);
 
+    useEffect(() => {
+        if(!task) return;
+
+        setId(task.id);
+        setTitle(task.title);
+        setDifficulty(task.difficulty);
+    }, [task]);
+
     function addTaskHander(e: React.FormEvent<HTMLFormElement>)
     {
         e.preventDefault();
+
+        if(handleUpdate) {
+            handleUpdate(id, title, difficulty);
+
+            return;
+        }
 
         setTaskList!([...taskList, {
             id: crypto.randomUUID(),

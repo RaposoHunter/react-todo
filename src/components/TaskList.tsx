@@ -6,9 +6,10 @@ interface Props
 {
     taskList: ITask[];
     handleDelete(id: string): void;
+    handleEdit(task: ITask): void;
 }
 
-export default function TaskList({ taskList, handleDelete } : Props)
+export default function TaskList({ taskList, handleDelete, handleEdit } : Props)
 {
     return (
         <>
@@ -20,7 +21,7 @@ export default function TaskList({ taskList, handleDelete } : Props)
                             <p>Dificuldade: {task.difficulty}</p>
                         </div>
                         <div className={styles.actions}>
-                            <i className="bi bi-pencil"></i>
+                            <i className="bi bi-pencil" onClick={() => handleEdit(task)}></i>
                             <i className="bi bi-trash" onClick={() => handleDelete(task.id)}></i>
                         </div>
                     </div>
